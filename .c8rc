@@ -1,0 +1,5 @@
+{
+  "all": true,
+  "include": ["app/**/*.js"],
+  "exclude": ["app/tests/**/*.js"]
+}
