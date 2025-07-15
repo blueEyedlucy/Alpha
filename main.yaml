@@ -1,0 +1,24 @@
+name: Create Jira Issue on PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  create_jira_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Jira Issue
+        uses: atlassian/gajira-create@v2
+        with:
+          site: ${{ secrets.JIRA_DOMAIN }}          # e.g. your-org.atlassian.net
+          user: ${{ secrets.JIRA_USER_EMAIL }}      # your JIRA login email
+          token: ${{ secrets.JIRA_API_TOKEN }}      # a Jira API token
+          project: ${{ secrets.JIRA_PROJECT_KEY }}  # e.g. “DP”
+          type: Task                                # Issue type (Task, Bug, Story…)
+          summary: |
+            Review PR #${{ github.event.number }}: ${{ github.event.pull_request.title }}
+          description: |
+            ${{ github.event.pull_request.body }}
+
+            🔗 PR Link: ${{ github.event.pull_request.html_url }}
